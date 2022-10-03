@@ -7,7 +7,8 @@ import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import {DataGrid} from '@mui/x-data-grid';
 import {SERVER_URL} from '../constants.js'
-
+import { TextField } from '@mui/material';
+import AddAssignment from './AddAssignment.js';
 // NOTE:  for OAuth security, http request must have
 //   credentials: 'include' 
 //
@@ -29,6 +30,7 @@ class Assignment extends React.Component {
       {  
         method: 'GET', 
         headers: { 'X-XSRF-TOKEN': token }
+        //body: {}
       } )
     .then((response) => response.json()) 
     .then((responseData) => { 
@@ -48,6 +50,9 @@ class Assignment extends React.Component {
     console.log("Assignment.onRadioClick " + event.target.value);
     this.setState({selected: event.target.value});
   }
+
+    
+
   
   render() {
      const columns = [
@@ -82,9 +87,15 @@ class Assignment extends React.Component {
             <Button component={Link} to={{pathname:'/gradebook',   assignment: assignmentSelected }} 
                     variant="outlined" color="primary" disabled={this.state.assignments.length===0}  style={{margin: 10}}>
               Grade
-            </Button>
+            </Button> 
+            <Button component={Link} to={{pathname:'/AddAssignment' }} 
+                    variant="outlined" color="primary" disabled={this.state.assignments.length===0}  style={{margin: 10}}>
+              AddAssignment
+            </Button>      
             <ToastContainer autoClose={1500} /> 
           </div>
+          
+        
       )
   }
 }  
