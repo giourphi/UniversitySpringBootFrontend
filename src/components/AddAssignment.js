@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
 import {SERVER_URL} from '../constants.js';
 import { TextField } from '@mui/material';
+import 'react-toastify/dist/ReactToastify.css';
 // NOTE:  for OAuth security, http request must have
 //   credentials: 'include' 
 //
@@ -31,14 +32,31 @@ class AddAssignment extends React.Component {
         'Content-Type': 'application/json'},
         body: JSON.stringify({assignmentName: this.state.assignment, dueDate: this.state.duedate, courseId: this.state.courseid})
       } )
-
+      
+      .then(res => {
+        if (res.ok) {
+          toast.success("Assignment successfully added", {
+          position: toast.POSITION.BOTTOM_LEFT
+          });
+         
+        } else {
+          toast.error("Assignment adding failed", {
+          position: toast.POSITION.BOTTOM_LEFT
+          });
+          console.error('Put http status =' + res.status);
+    }})
       .catch(err => {
         toast.error("Fetch failed.", {
             position: toast.POSITION.BOTTOM_LEFT
           });
-          console.error(err); 
+          console.error(err);
+           
       })
+      
+     
   }
+
+
 
   
 
@@ -71,7 +89,6 @@ class AddAssignment extends React.Component {
               />
               </h3>
            <Button id="Add" color="primary" onClick={this.addAssignment}>Add</Button>
-
             <ToastContainer autoClose={1500}/> 
           </div>
           
